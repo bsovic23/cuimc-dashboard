@@ -10,13 +10,22 @@ const participantSchema = new Schema (
             type: String,
             required: 'You need to enter a participant last name'
         },
+        pxStatus: {
+            type: String
+        },
         pxAge: {
-            type: String,
-            required: 'You need to enter a participant age'
+            type: Number,
+            required: 'You need to enter a participant age',
+            min: 1,
+            max: 100
         },
         pxStudy: {
             type: String,
             required: 'You need to enter a participant study'
+        },
+        pxStudyDate: {
+            type: Date,
+            default: Date.now
         },
         createdAt: {
             type: Date,
