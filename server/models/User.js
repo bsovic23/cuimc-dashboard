@@ -25,12 +25,6 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Participant'
             }
-        ],
-        comments: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Comment'
-            }
         ]
     },
     {
@@ -58,10 +52,6 @@ userSchema.pre('save', async function(next) {
 userSchema.virtual('pxEnteredCount').get(function() {
     return this.pxEntered.length;
 })
-
-userSchema.virtual('commentNumber').get(function() {
-    return this.comments.length;
-});
 
 const User = model('User', userSchema);
 

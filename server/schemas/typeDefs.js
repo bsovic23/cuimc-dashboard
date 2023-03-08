@@ -14,11 +14,11 @@ const typeDefs = gql`
     password: String
     pxEnteredCount: Int
     pxEntered: [Participant]
-    comments: [Comment]
   }
 
   type Participant {
     _id: ID
+    username: String
     pxFirstName: String
     pxLastName: String
     pxStatus: String
@@ -26,12 +26,15 @@ const typeDefs = gql`
     pxStudy: String
     pxStudyDate: String
     createdAt: String
+    comment: [Comment]
   }
 
   type Comment {
     _id: ID
-    commentBody: String
+    username: String
+    createdAt: String
     commentType: String
+    commentBody: String
   }
 
   type Query {
@@ -44,6 +47,8 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(username: String!, password: String!): Auth
+    addParticipant(pxFirstName: String!, pxLastName: String!, pxStatus: String!, pxAge: Int!, pxStudy: String!, pxStudyDate: String!): Participant
+    addComment(participantId: ID!, commentType: String, commentBody: String): Participant
   }
 `;
 

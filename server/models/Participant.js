@@ -2,6 +2,9 @@ const { Schema, model } = require('mongoose');
 
 const participantSchema = new Schema (
     {
+        username: {
+            type: String
+        },
         pxFirstName: {
             type: String,
             required: 'You need to enter a participant first name!',
@@ -30,7 +33,13 @@ const participantSchema = new Schema (
         createdAt: {
             type: Date,
             default: Date.now
-        }
+        },
+        comment: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Comment'
+            }
+        ]
     }
 );
 

@@ -47,6 +47,7 @@ const resolvers = {
 
     Mutation: {
 
+      // Add New Uer and Login
       addUser: async (parent, args) => {
         const user = await User.create(args);
         const token = signToken(user);
@@ -70,6 +71,38 @@ const resolvers = {
 
         const token = signToken(user);
         return { token, user };
+      },
+
+      // Partcipant Mutations
+      addParticipant: async (parent, args, context) => {
+        if (context.user) {
+          const participant = await Participant.create({...args, username: context.user.username});
+
+          await User.findByIdAndUpdate(
+            { _id: context.user._id},
+            { $push: { pxEntered: participant._id }},
+            { new: true }
+          );
+
+          return participant;
+        }
+
+        throw new AuthenticationError('You need to be logged in');
+      },
+
+      addComment: async (parent, { participantId, commentType, commentBody }, context) => {
+        if (context.user) {
+          const updatedPx = await Participant.findOneAndUpdate(
+            { _id: participantId },
+            { $push: { comment: { commentType, commentBody, username: context.user.username }}},
+            { new: true, runValidators: true }
+          );
+        
+        return updatedPx;
+
+        }
+
+        throw new AuthenticationError('You need to be logged in');
       }
     }
   };
