@@ -55,7 +55,6 @@ const resolvers = {
         return { token, user };
       },
 
-
       login: async (parent, { username, password }) => {
         const user = await User.findOne({ username });
 
@@ -90,6 +89,7 @@ const resolvers = {
         throw new AuthenticationError('You need to be logged in');
       },
 
+      // Error with the comment portion mutation
       addComment: async (parent, { participantId, commentType, commentBody }, context) => {
         if (context.user) {
           const updatedPx = await Participant.findOneAndUpdate(
